@@ -2,6 +2,7 @@
 # CSCI 164 Search w/ Eight Puzzle (and 15-Puzzle) Project
 
 
+from inspect import stack
 from queue import PriorityQueue
 import string
 
@@ -148,6 +149,23 @@ class State(object):
             self.actions = []
 
 
+class Stack():
+    def __init__(self):
+        self._stack = []
+    
+    def push(self, item):
+        self._stack.insert(0, item)
+
+    def peek(self):
+        return self._stack[0]
+    
+    def pop(self):
+        return self._stack.pop(0)
+    
+    def size(self):
+        return len(self._stack)
+
+
 def AStarManhattan(source_state:str, destination_state:str) -> str:
     # setup
     priority_queue = PriorityQueue()
@@ -235,7 +253,35 @@ def AStarHamming(source_state:str, destination_state:str) -> str:
 
 
 def DepthFirstSearch(source_state:str, destination_state:str) -> str:
-    stack = []
+    # init
+    paths = Stack()
+    paths_index = 0
+    explored = {source_state}
+    nodes_expanded = 0
+    paths.push([source_state])
+
+    while paths.size() > 0:
+        curr_path = paths.pop()
+        curr_state = curr_path[-1]
+        children = GetPossibleStates(curr_state)
+        nodes_expanded += 1
+        # return if goal is found
+        if destination_state in children:
+            curr_path.append(destination_state)
+            print(f"nodes expanded: {nodes_expanded}")
+            return InferActionsFromStates(curr_path)
+        # add paths to queue
+        for child in children:
+            if not child in explored:
+                new_path = curr_path[:]
+                new_path.append(child)
+                paths.push(new_path)
+                explored.add(child)
+    
+    # if our queue is empty, no path has been found
+    print("Could not find path!")
+    return ""
+
 
 def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
@@ -331,7 +377,8 @@ if __name__ == "__main__":
     StateDimension = 3
     RunTests(TestSuite3x3, GoalState3x3, BreadthFirstSearch)
 
-    # StateDimension = 4
-    # RunTests(TestSuite4x4, GoalState4x4, AStarHamming)
+    StateDimension = 4
+    RunTests(TestSuite4x4, GoalState4x4, AStarHamming)
 
     print("============================")
+
