@@ -2,12 +2,8 @@
 # CSCI 164 Search w/ Eight Puzzle (and 15-Puzzle) Project
 
 
-import heapq
-from operator import concat
 from queue import PriorityQueue
 import string
-from tracemalloc import start
-from turtle import distance
 
 
 # StateDimension^2 gives us the total number of tiles in the puzzle
@@ -19,7 +15,7 @@ StateDimension = 4
 # InitialState = "123456708"
 
 # InitialState = "123456789A0BCDEF"
-# InitialState = "16235A749C08DEBF"
+InitialState = "16235A749C08DEBF"
 
 # GoalState = "123456780"
 # GoalState = "123456789ABCDEF0"
@@ -109,11 +105,19 @@ def ManhattanDistance(left, right):
 
 # returns the number of tiles not in their goal state
 def OutOfPlace(left, right):
-    distances = [left[i]!=right[i] and right[i] != '0'
+    # distances = []
+    # if StateDimension == 4:
+    #     distances = [left[i] != right[i] and right[i] != '0'
+    #         for i in range(StateDimension**2)]
+    # else:
+    distances = [right[i] != '0' and left[i] != right[i]
         for i in range(StateDimension**2)]
     return sum(distances)
 
-
+def HammingDistance(lhs:str, rhs:str) -> int:
+    if len(lhs) != len(rhs):
+        print("STRINGS NOT EQUAL SIZE")
+    return sum(c2 != '0' and c1 != c2 for c1, c2 in zip(lhs, rhs))
 
 
 
@@ -185,6 +189,55 @@ def AStarManhattan(source_state:str, destination_state:str) -> str:
 
 
 
+def AStarHamming(source_state:str, destination_state:str) -> str:
+    # setup
+    priority_queue = PriorityQueue()
+    visited_queue = []
+    path = []
+    actions = []
+    nodes_expanded = 0
+    count = 0
+    # seed frontier
+    priority_queue.put( (0, 0, State(source_state)) )
+    # run until the either we have a path or the frontier is empty
+    while(path == [] and not priority_queue.empty()):
+        # get node of least cost and add it to visited list
+        current_child = priority_queue.get()[2]
+        visited_queue.append(current_child.value)
+        # return if goal is found
+        if current_child.value == destination_state:
+            print("Start state is same as goal state")
+            return ""
+        # generate child states from current state
+        nodes_expanded += 1
+        children = [State(s, current_child) for s in GetPossibleStates(current_child.value)]
+        for child in children:
+            if child.value not in visited_queue:
+                # return if goal is found
+                if child.value == destination_state:
+                    path = child.path[:]
+                    actions = child.actions[:]
+                    break
+                # get new costs for this child, and put it in the frontier
+                count += 1
+                hamming_distance = HammingDistance(current_child.value, destination_state)
+                priority_queue.put( (hamming_distance, count, child) )
+    # if entire search space has been exhausted without a solution, print error message
+    if path == []:
+        print("Could not find path!")
+    # return solution
+    print(f"nodes expanded: {nodes_expanded}")
+    return ''.join(actions)
+
+
+
+
+def DepthFirstSearch(source_state:str, destination_state:str) -> str:
+    stack = []
+
+
+
+
 ## Tests
 GoalState3x3 = "123456780"
 TestSuite3x3 = [
@@ -231,15 +284,20 @@ def RunTests(test_suite:list[str], goal_state:str, algorithm):
 
 
 
+
+## Main function
 if __name__ == "__main__":
     print("\n\nstarting...\n")
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
     # print(AStarManhattan(InitialState, GoalState) + "\n")
-    StateDimension = 3
     # print(AStarManhattan("130458726", "123456780") + "\n")
 
-    RunTests(TestSuite3x3, GoalState3x3, AStarManhattan)
+    StateDimension = 3
+    RunTests(TestSuite3x3, GoalState3x3, AStarHamming)
+
+    # StateDimension = 4
+    # RunTests(TestSuite4x4, GoalState4x4, AStarHamming)
 
     print("============================")

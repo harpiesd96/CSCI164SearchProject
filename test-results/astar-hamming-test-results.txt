@@ -1,0 +1,153 @@
+A* HAMMING
+
+starting...
+
+Test: 160273485
+Goal: 123456780
+nodes expanded: 2072
+dlldrruuldrulddruulddlurrdluldruulddrulurddr
+
+Test: 462301587
+Goal: 123456780
+nodes expanded: 2686
+urdllurdrullddrrullurddlurulddrruldluurdrdlluurddlurulddrulurddr
+
+Test: 821574360
+Goal: 123456780
+nodes expanded: 3318
+luldrulurddruulldrdrulldrrulldrurdlluurdldruulddrulurddluurdldrruldlurrdluldruulddrulurddr
+
+Test: 840156372
+Goal: 123456780
+nodes expanded: 2855
+llddruurdldruulddruuldrdluldrruuldruldrdluldruulddrulurddr
+
+Test: 530478126
+Goal: 123456780
+nodes expanded: 464
+ldrdluulddruulddruuldrdluurdldruurddlurulddr
+
+Test: 068314257
+Goal: 123456780
+nodes expanded: 346
+drdruullddrruulddlurulddrulurddr
+
+Test: 453207186
+Goal: 123456780
+nodes expanded: 406
+lurdrdluldruuldrdlurulddrulurddr
+
+Test: 128307645
+Goal: 123456780
+nodes expanded: 1256
+dlurdruldlurdrulldruruldrdluurddlurulddrulurdd
+
+Test: 035684712
+Goal: 123456780
+nodes expanded: 818
+drrulldrurdldruuldrdlluurdldruurddlurulddr
+
+Test: 684317025
+Goal: 123456780
+nodes expanded: 2781
+urulddruurdlurddlurulddlurdrulurddluurdldlurdruuldldrruulddlurrdluldruulddrulurddr
+
+Test: 028514637
+Goal: 123456780
+nodes expanded: 1495
+ddruldrrulldruuldrdrulurddluurdldruulddlurulddrulurddr
+
+Test: 618273540
+Goal: 123456780
+nodes expanded: 1152
+ullurddlurrulddruldrulurddllurdrulldrruldlurrdluldrr
+
+Test: 042385671
+Goal: 123456780
+nodes expanded: 995
+rrddlulurdrulldrrdllurdrulldrulurddluurdldrruldlurrdluldruulddrulurddr
+
+Test: 420385716
+Goal: 123456780
+nodes expanded: 2820
+ddlulurdruldrulldrruldlurrddlurulldrdruulldrruldlurrdluldrrd
+
+Test: 054672813
+Goal: 123456780
+nodes expanded: 2836
+drurddlluurrdllurdrulldrruldlurrddlurulldrdruulldrruldlurrdluldrrd
+
+Test: 314572680
+Goal: 123456780
+nodes expanded: 1592
+ullurdldruurddllurruldrdluldrrullurdrulldrrdlurulddrulurdllurrdluldrrd
+
+Test: 637218045
+Goal: 123456780
+nodes expanded: 687
+ruldrruulddruldrulldrruldruulldrurdlldrruldlurrd
+
+Test: 430621875
+Goal: 123456780
+nodes expanded: 1086
+lddlurrdllurdrulldrulurddlurulddrruldlurrdluldrr
+
+Test: 158274036
+Goal: 123456780
+nodes expanded: 1932
+ururddllururddluurddluurdldrulurdllurrdluldrrd
+
+Test: 130458726
+Goal: 123456780
+nodes expanded: 282
+ddlurulddruldruuldrdlurulddrulurdd
+
+Test: 16235A749C08DEBF
+Goal: 123456789ABCDEF0
+nodes expanded: 576
+drulluurrddlurddluurdldruuldrdlurulddrulurdd
+
+Test: 0634217859ABDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 35210
+ddrrruldrdluurdldruulldrurdllurdrullurddlurulddluurdldruurdldruuldddrulurddlurulddrruldlurrdluldrr
+
+Test: 012456379BC8DAEF
+Goal: 123456789ABCDEF0
+nodes expanded: 20
+rrdrdlldrr
+
+Test: 51246A38097BDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 16
+rulurrddrd
+
+Test: 12345678D9CFEBA0
+Goal: 123456789ABCDEF0
+nodes expanded: 24
+uldllurrdr
+
+Test: 71A92CE03DB4658F
+Goal: 123456789ABCDEF0
+nodes expanded: 109343
+lllurdddrruulldlurdrruldldlurulddrulurdruldrdluldrruldlururdlurruldlurrdlulddruldlurdrulldrurdlldrulurddluurdldruuldrrdluldrrulldrurruuldrdluurdddluruuldddruulurdddlllurdrulldrruldlurruurdldruuldddruluurddluruldddllurdrulldrrruldllurrrdlluldrrr
+
+Test: 02348697DF5A1EBC
+Goal: 123456789ABCDEF0
+nodes expanded: 11333
+ddrrurddlulldrurdllurrulldrurdlurrdluldrdruulddrulurddluuurdldruuldrdluulldrurdllurrrdluldrurdllurdrullldddruluurdddluuruldddrrruldllurrrdlluldrrr
+
+Test: 39A1D0EC7BF86452
+Goal: 123456789ABCDEF0
+nodes expanded: 95097
+rdlurrddlluuuldrdlurrulddrullurddlurdrdllurdrullurdlurrdluldrurdllurdrullurrrdluldrrulldlurrdlurrdldrulddrulurddluurulldrurdllurdrullddlurulddrulurrdldruuldddruluurddlurulldrdluurdldrdluruuldddruulurdddluurdldruurdluldrruldlurrddlurulddrulurddruldlurrdllluurdlurdldrrulurddluurdldrruldlurrdluldruulddrulurddr
+
+Test: EAB480FC19D56237
+Goal: 123456789ABCDEF0
+nodes expanded: 19510
+ldrrrululldrdrulddluurdldruruuldrdldrulurddruuldrdluulddrulurddluuldrdluurrdlurulddrulurdlddruulddruuldrdluurdldruurddlurulddr
+
+Test: 7DB13C52F46E80A9
+Goal: 123456789ABCDEF0
+nodes expanded: 100665
+ruldruuurddluurdllurrdlllddrrruulllurrdlulddrulddrulurdlurrruldllurrrdlluldrrrddlurulddruuldrdluullurdrulldrrurdlllurrdllurrdlurrdllurdlurdrullldrulddrulurddluruldddruuldrdluururrdluldrrddlurulddrulurddlllurdrulldrruldlurrdruuulddruldrulurdddlllurdrrullldrrurdlllurrdluldrruruuldrdluurdddluruuldddruulurddd

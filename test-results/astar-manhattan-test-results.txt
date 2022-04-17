@@ -1,0 +1,153 @@
+A* MANHATTAN
+
+starting...
+
+Test: 160273485
+Goal: 123456780
+nodes expanded: 155
+ddluldrruuldrdlurulddrulurdd
+
+Test: 462301587
+Goal: 123456780
+nodes expanded: 835
+urdlldrrullurrdldlurrdlluurddlurulddrulurddr
+
+Test: 821574360
+Goal: 123456780
+nodes expanded: 245
+luldrulurdrulldrruldlurrddllurdruldlurrdluldrr
+
+Test: 840156372
+Goal: 123456780
+nodes expanded: 220
+llddruurddluruldlurdrulldrrdluldrrulldrruldlurrdluldrr
+
+Test: 530478126
+Goal: 123456780
+nodes expanded: 349
+lldrrdluldruulddrruldluurddlurrdllurdruuldlurrdd
+
+Test: 068314257
+Goal: 123456780
+nodes expanded: 726
+drulddrruuldldrruuldrulddruulldrrdlluurdldrr
+
+Test: 453207186
+Goal: 123456780
+nodes expanded: 229
+lurdrdluldrruulldrurdd
+
+Test: 128307645
+Goal: 123456780
+nodes expanded: 220
+drulldrrulldrruuldrdluurdlldrruldlurrd
+
+Test: 035684712
+Goal: 123456780
+nodes expanded: 644
+rrddluurdluldrrdluruldlurdlurrdldruulldruldrrdlluurdldrr
+
+Test: 684317025
+Goal: 123456780
+nodes expanded: 988
+urulddruurdlurddllurdluurddrulldrruulddluurrddlurulddlurdruulldrrdlluurdldrr
+
+Test: 028514637
+Goal: 123456780
+nodes expanded: 238
+drdluurddruullddrruldruulldrurdd
+
+Test: 618273540
+Goal: 123456780
+nodes expanded: 196
+lulurdldrruuldrdluurdlldrruldlurrd
+
+Test: 042385671
+Goal: 123456780
+nodes expanded: 627
+ddruuldrrdluruldlurdlurrdldruulldruldrrdlluurdldrr
+
+Test: 420385716
+Goal: 123456780
+nodes expanded: 186
+ddlulurdruldrdluurdldruuldrdllurulddrr
+
+Test: 054672813
+Goal: 123456780
+nodes expanded: 168
+drurddlluurrddlulurrdldruuldrdllurulddrr
+
+Test: 314572680
+Goal: 123456780
+nodes expanded: 412
+luldruruldlurrdldruulldrrulldrruldrdlluurdldrr
+
+Test: 637218045
+Goal: 123456780
+nodes expanded: 136
+rruulddrullurdldrruldruldlurrdluldrr
+
+Test: 430621875
+Goal: 123456780
+nodes expanded: 741
+ldldrruldruldlurdlurrdllurdruuldlurrdd
+
+Test: 158274036
+Goal: 123456780
+nodes expanded: 551
+ururddllururddluurddluurdldruulldrrdlluurdldrr
+
+Test: 130458726
+Goal: 123456780
+nodes expanded: 65
+ldrdluurddlurulddr
+
+Test: 16235A749C08DEBF
+Goal: 123456789ABCDEF0
+nodes expanded: 21
+luurrddldr
+
+Test: 0634217859ABDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 447
+drulddrrrd
+
+Test: 012456379BC8DAEF
+Goal: 123456789ABCDEF0
+nodes expanded: 20
+rrdrdlldrr
+
+Test: 51246A38097BDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 16
+rulurrddrd
+
+Test: 12345678D9CFEBA0
+Goal: 123456789ABCDEF0
+nodes expanded: 17
+uldllurrdr
+
+Test: 71A92CE03DB4658F
+Goal: 123456789ABCDEF0
+nodes expanded: 4631
+dluurdlllurdlddruldrurulldrdrruullddrruldruldlurrdllurdrulurdllldrurrdlllurdruuuldrddluuurddldrulldrruldlurrdrulldrurdllurrdlurulddrulurddlurulddruulurddlurulddrd
+
+Test: 02348697DF5A1EBC
+Goal: 123456789ABCDEF0
+nodes expanded: 9585
+drrdlurdrdluurddlurdlurulllurdldrruldrdruulldlurrdrdlluuuldddrruulldrurddluldrruuulldrurdrdldruulddruldlurrdluldluurdldrrruldlurrdllurdruuldlurrdd
+
+Test: 39A1D0EC7BF86452
+Goal: 123456789ABCDEF0
+nodes expanded: 1846
+urrdddluluulddrulurrdlddluurddluuurdddrurdllurruullddrruulldddrruldlulurrrdluldrrdlluldrruldlururuldrdluurdldrdr
+
+Test: EAB480FC19D56237
+Goal: 123456789ABCDEF0
+nodes expanded: 3254
+ulddruulddrdluurddluurdldruruuldlddruldrruuuldddluurdrruldlurdllurrdluurddlldrrruldluurdluurddrdlllururuldddruldlurrdluldrrr
+
+Test: 7DB13C52F46E80A9
+Goal: 123456789ABCDEF0
+nodes expanded: 1657
+luuurdddrrulldrruluuldlddrruuurdlllurddldruuurrdddllluuurrdllurdruldrrullldddrrruulddlurulddluurdldruulddrulurddrruldluurdrdlluurddlurulddrulurddr
