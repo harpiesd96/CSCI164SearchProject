@@ -69,7 +69,7 @@ def LegalMove(state, action):
     return True
 
 # returns all possible next legal states from a state
-def GetPossibleStates(state:string):
+def GetPossibleStates(state:string) -> list[str]:
     return [Result(state, i) for i in Actions() if LegalMove(state, i)]
 
 # returns the action taken between 2 states
@@ -80,6 +80,13 @@ def InferAction(lhs:string, rhs:string) -> string:
         if res == rhs:
             return a
     return ''
+
+# returns the actions taken with a list of states
+def InferActionsFromStates(states:list[str]) -> str:
+    actions = []
+    for i in range(1, len(states)):
+        actions.append(InferAction(states[i-1], states[i]))
+    return ''.join(actions)
 
 
 
@@ -105,11 +112,6 @@ def ManhattanDistance(left, right):
 
 # returns the number of tiles not in their goal state
 def OutOfPlace(left, right):
-    # distances = []
-    # if StateDimension == 4:
-    #     distances = [left[i] != right[i] and right[i] != '0'
-    #         for i in range(StateDimension**2)]
-    # else:
     distances = [right[i] != '0' and left[i] != right[i]
         for i in range(StateDimension**2)]
     return sum(distances)
@@ -235,6 +237,38 @@ def AStarHamming(source_state:str, destination_state:str) -> str:
 def DepthFirstSearch(source_state:str, destination_state:str) -> str:
     stack = []
 
+def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
+    # init
+    paths = [[source_state]]
+    paths_index = 0
+    explored = {source_state}
+    nodes_expanded = 0
+
+    while paths_index < len(paths):
+        curr_path = paths[paths_index]
+        curr_state = curr_path[-1]
+        children = GetPossibleStates(curr_state)
+        nodes_expanded += 1
+        # return if goal is found
+        if destination_state in children:
+            curr_path.append(destination_state)
+            print(f"nodes expanded: {nodes_expanded}")
+            return InferActionsFromStates(curr_path)
+        # add paths to queue
+        for child in children:
+            if not child in explored:
+                new_path = curr_path[:]
+                new_path.append(child)
+                paths.append(new_path)
+                explored.add(child)
+        # go to next path in queue
+        paths_index += 1
+    
+    # if our queue is empty, no path has been found
+    print("Could not find path!")
+    return ""
+
+
 
 
 
@@ -295,7 +329,7 @@ if __name__ == "__main__":
     # print(AStarManhattan("130458726", "123456780") + "\n")
 
     StateDimension = 3
-    RunTests(TestSuite3x3, GoalState3x3, AStarHamming)
+    RunTests(TestSuite3x3, GoalState3x3, BreadthFirstSearch)
 
     # StateDimension = 4
     # RunTests(TestSuite4x4, GoalState4x4, AStarHamming)
