@@ -9,14 +9,14 @@ import string
 
 # StateDimension^2 gives us the total number of tiles in the puzzle
 # StateDimension = 3
-StateDimension = 4
+# StateDimension = 4
 
 # InitialState = "120453786"
 # InitialState = "102345678"
 # InitialState = "123456708"
 
-# InitialState = "123456789A0BCDEF"
-InitialState = "16235A749C08DEBF"
+# # InitialState = "123456789A0BCDEF"
+# InitialState = "16235A749C08DEBF"
 
 # GoalState = "123456780"
 # GoalState = "123456789ABCDEF0"
@@ -254,14 +254,12 @@ def AStarHamming(source_state:str, destination_state:str) -> str:
 
 def DepthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
-    paths = Stack()
-    paths_index = 0
+    f_stack = [[source_state]]
     explored = {source_state}
     nodes_expanded = 0
-    paths.push([source_state])
 
-    while paths.size() > 0:
-        curr_path = paths.pop()
+    while len(f_stack) > 0:
+        curr_path = f_stack.pop(0)
         curr_state = curr_path[-1]
         children = GetPossibleStates(curr_state)
         nodes_expanded += 1
@@ -275,7 +273,7 @@ def DepthFirstSearch(source_state:str, destination_state:str) -> str:
             if not child in explored:
                 new_path = curr_path[:]
                 new_path.append(child)
-                paths.push(new_path)
+                f_stack.insert(0, new_path)
                 explored.add(child)
     
     # if our queue is empty, no path has been found
@@ -283,15 +281,16 @@ def DepthFirstSearch(source_state:str, destination_state:str) -> str:
     return ""
 
 
+
+
 def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
     paths = [[source_state]]
-    paths_index = 0
     explored = {source_state}
     nodes_expanded = 0
 
-    while paths_index < len(paths):
-        curr_path = paths[paths_index]
+    while len(paths) > 0:
+        curr_path = paths.pop(0)
         curr_state = curr_path[-1]
         children = GetPossibleStates(curr_state)
         nodes_expanded += 1
@@ -302,13 +301,11 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
             return InferActionsFromStates(curr_path)
         # add paths to queue
         for child in children:
-            if not child in explored:
+            if not (child in explored):
                 new_path = curr_path[:]
                 new_path.append(child)
                 paths.append(new_path)
                 explored.add(child)
-        # go to next path in queue
-        paths_index += 1
     
     # if our queue is empty, no path has been found
     print("Could not find path!")
@@ -369,16 +366,26 @@ def RunTests(test_suite:list[str], goal_state:str, algorithm):
 if __name__ == "__main__":
     print("\n\nstarting...\n")
 
+    # InitialState = "328617540"
+    # GoalState = "123456780"
+
+    # # 123
+    # # 405
+    # # 786
+
+    # StateDimension = 3
+
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
-    # print(AStarManhattan(InitialState, GoalState) + "\n")
-    # print(AStarManhattan("130458726", "123456780") + "\n")
+    # print(BreadthFirstSearch2(InitialState, GoalState) + "\n")
+
+    search_algorithm = BreadthFirstSearch
 
     StateDimension = 3
-    RunTests(TestSuite3x3, GoalState3x3, BreadthFirstSearch)
+    RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
 
-    StateDimension = 4
-    RunTests(TestSuite4x4, GoalState4x4, AStarHamming)
+    # StateDimension = 4
+    # RunTests(TestSuite4x4, GoalState4x4, search_algorithm)
 
     print("============================")
 
