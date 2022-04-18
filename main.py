@@ -387,41 +387,45 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
 
 
 
-def IterativeDeepeningDepthFirstSearch(source_state:str, destination_state:str, max_depth:int) -> str:
-    # init
-    f_stack = [[source_state]]
-    explored = {source_state}
-    nodes_expanded = 0
+# def IterativeDeepeningDepthFirstSearch(source_state:str, destination_state:str, max_depth:int) -> str:
+#     # init
+#     f_stack = [[source_state]]
+#     explored = {source_state}
+#     nodes_expanded = 0
 
-    for i in range(max_depth):
-        res, count = DepthLimitedSearch(source_state, destination_state, i)
-        nodes_expanded += count
-        if(res != ""):
-            print(f"nodes expanded: {nodes_expanded}")
-            return "path found"
-    print(f"nodes expanded: {nodes_expanded}")
-    return "path not found"
+#     for i in range(max_depth):
+#         res, count = DepthLimitedSearch(source_state, destination_state, i)
+#         nodes_expanded += count
+#         if(res != ""):
+#             print(f"nodes expanded: {nodes_expanded}")
+#             return "path found"
+#     print(f"nodes expanded: {nodes_expanded}")
+#     return "path not found"
 
 
-def DepthLimitedSearch(source_state:str, destination_state:str, max_depth:int) -> Tuple[str, int]:
-    nodes_expanded = 0
-    if source_state == destination_state: return ("path found", nodes_expanded)
-    if max_depth <= 0: return ("", nodes_expanded)
-    children = GetPossibleStates(source_state)
-    nodes_expanded += 1
-    for child in children:
-        res, count = DepthLimitedSearch(child, destination_state, max_depth-1)
-        nodes_expanded += count
-        if(res != ""):
-            return ("path found", nodes_expanded)
-    return ("", nodes_expanded)
+# def DepthLimitedSearch(source_state:str, destination_state:str, max_depth:int) -> Tuple[str, int]:
+#     nodes_expanded = 0
+#     if source_state == destination_state: return ("path found", nodes_expanded)
+#     if max_depth <= 0: return ("", nodes_expanded)
+#     children = GetPossibleStates(source_state)
+#     nodes_expanded += 1
+#     for child in children:
+#         res, count = DepthLimitedSearch(child, destination_state, max_depth-1)
+#         nodes_expanded += count
+#         if(res != ""):
+#             return ("path found", nodes_expanded)
+#     return ("", nodes_expanded)
 
-def IterativeDeepening(search_algorithm, source_state:str, destination_state:str, max_depth:int) -> str:
+
+def IDDFS(source_state:str, destination_state:str, max_depth:int) -> str:
     nodes_expanded = 0
     frontier = [[source_state]]
     explored = {source_state}
     for i in range(1, max_depth):
-        result, count = search_algorithm(destination_state, i, frontier, explored)
+        result, count = DepthFirstSearchID( destination_state,
+                                            i,
+                                            frontier,
+                                            explored)
         nodes_expanded += count
         if result != "":
             print(f"nodes expanded: {nodes_expanded}")
@@ -432,8 +436,12 @@ def IterativeDeepening(search_algorithm, source_state:str, destination_state:str
 
 # init stk with [[source_state]]
 # init exp with {source_state}
-def DepthFirstSearchID(destination_state:str, max_depth:int, ftr:list[list[str]], exp:set, cnt:int=0) -> Tuple[str, int]:
-    while True:
+def DepthFirstSearchID( destination_state:str,
+                        max_depth:int,
+                        ftr:list[list[str]],
+                        exp:set,
+                        cnt:int=0   ) -> Tuple[str, int]:
+    while (len(ftr) > 0):
         curr_path = ftr.pop(0)
         curr_state = curr_path[-1]
         children = GetPossibleStates(curr_state)
@@ -452,8 +460,6 @@ def DepthFirstSearchID(destination_state:str, max_depth:int, ftr:list[list[str]]
                 new_path.append(child)
                 ftr.insert(0, new_path)
                 exp.add(child)
-        # do-while pattern
-        if(len(ftr) > 0): break
     # if our stack is empty, no path has been found
     return ("", cnt)
 
@@ -676,24 +682,24 @@ if __name__ == "__main__":
     # 786
 
     # StateDimension = 3
-    search_depth = 6
+    search_depth = 16
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
     # print(IDAStarManhattan(InitialState, GoalState, search_depth) + "\n")
     # print(dfs2(mod_state, GoalState) + "\n")
 
-    search_algorithm = IDAStarHamming
+    search_algorithm = IDDFS
 
     StateDimension = 3
     # RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
     RunTestsID(TestSuite3x3, GoalState3x3, search_algorithm, search_depth)
 
-    StateDimension = 4
+    # StateDimension = 4
     # RunTests(TestSuite4x41, GoalState4x4, search_algorithm)
-    RunTestsID(TestSuite4x41, GoalState4x4, search_algorithm, search_depth)
+    # RunTestsID(TestSuite4x41, GoalState4x4, search_algorithm, search_depth)
     # RunTests(TestSuite4x42, GoalState4x4, search_algorithm)
-    RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
+    # RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
 
     print("============================")
 
