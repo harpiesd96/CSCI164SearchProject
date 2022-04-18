@@ -1,0 +1,131 @@
+starting...
+
+Test: 160273485
+Goal: 123456780
+nodes expanded: 218302
+ddllurruldrulddlurdruuldrd
+
+Test: 462301587
+Goal: 123456780
+nodes expanded: 313865
+urdlldrurdlurdllururddlluurddr
+
+Test: 821574360
+Goal: 123456780
+nodes expanded: 309478
+llurrdllurrdluuldrurdllurddruldr
+
+Test: 840156372
+Goal: 123456780
+nodes expanded: 72179
+dllurdldrrullurddruulddr
+
+Test: 530478126
+Goal: 123456780
+nodes expanded: 224743
+lldrrdlluurrdldruulddluurdldrr
+
+Test: 068314257
+Goal: 123456780
+nodes expanded: 96323
+drrdlurulldrdlurdruulddr
+
+Test: 453207186
+Goal: 123456780
+nodes expanded: 29029
+rdluulddrrululdrrd
+
+Test: 128307645
+Goal: 123456780
+nodes expanded: 520217
+rdllurrdlluurrdldrulurdldrululdrdr
+
+Test: 035684712
+Goal: 123456780
+nodes expanded: 281016
+rrdlldrruldlurdruulldrrulldrrd
+
+Test: 684317025
+Goal: 123456780
+nodes expanded: 508613
+rrullurrdllurrdldrulldrrullurdrdlurd
+
+Test: 028514637
+Goal: 123456780
+nodes expanded: 96286
+drrdlurulldrdlurrdluurdd
+
+Test: 618273540
+Goal: 123456780
+nodes expanded: 165524
+llurrullddrrulurdllurddlurdr
+
+Test: 042385671
+Goal: 123456780
+nodes expanded: 215219
+rrdlldrrullurrdlldruldruulddrr
+
+Test: 420385716
+Goal: 123456780
+nodes expanded: 55830
+dllurddlurrullddrurd
+
+Test: 054672813
+Goal: 123456780
+nodes expanded: 161861
+rrddllurdluurrddluruldlurrdd
+
+Test: 314572680
+Goal: 123456780
+nodes expanded: 379721
+lulurrdlldrrulldruruldruldrdllurrd
+
+Test: 637218045
+Goal: 123456780
+nodes expanded: 466201
+rruuldrdluldrruulldrurdllurddr
+
+Test: 430621875
+Goal: 123456780
+nodes expanded: 41859
+dlldruurdllurrdldruldr
+
+Test: 158274036
+Goal: 123456780
+nodes expanded: 290987
+ruurdlldrrullurrdllurdlurrddlurd
+
+Test: 130458726
+Goal: 123456780
+nodes expanded: 25068
+dldruulldrrdlulurdrd
+
+
+4x4
+
+
+Test: 16235A749C08DEBF
+Goal: 123456789ABCDEF0
+nodes expanded: 3931
+luurrddldr
+
+Test: 0634217859ABDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 7614
+rdlurdldrrrd
+
+Test: 012456379BC8DAEF
+Goal: 123456789ABCDEF0
+nodes expanded: 1737
+rrdrdlldrr
+
+Test: 51246A38097BDEFC
+Goal: 123456789ABCDEF0
+nodes expanded: 3064
+rulurrddrd
+
+Test: 12345678D9CFEBA0
+Goal: 123456789ABCDEF0
+nodes expanded: 32186
+lurdlurdlllurrdr
+

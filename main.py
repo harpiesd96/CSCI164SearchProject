@@ -2,29 +2,22 @@
 # CSCI 164 Search w/ Eight Puzzle (and 15-Puzzle) Project
 
 
+# imports
 from queue import PriorityQueue
 import string
 from typing import Tuple
 
 
+
+
 # StateDimension^2 gives us the total number of tiles in the puzzle
 StateDimension = 3
-# StateDimension = 3
 # StateDimension = 4
 
-# InitialState = "120453786"
-# InitialState = "102345678"
-# InitialState = "123456708"
-
-# # InitialState = "123456789A0BCDEF"
-# InitialState = "16235A749C08DEBF"
-
-# GoalState = "123456780"
-# GoalState = "123456789ABCDEF0"
-
-# Actions = lambda s: ['u', 'd', 'l', 'r']
+# returns available actions for a state to take
 Actions = lambda : ['u', 'd', 'l', 'r']
-Opposite = dict([('u','d'), ('d','u'), ('l','r'), ('r','l'), (None, None)])
+# Actions = lambda s: ['u', 'd', 'l', 'r']
+# Opposite = dict([('u','d'), ('d','u'), ('l','r'), ('r','l'), (None, None)])
 
 
 # returns the result of applying a move to a state
@@ -131,31 +124,17 @@ def HammingDistance(lhs:str, rhs:str) -> int:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### SEARCH ALORITHMS
+## A*
+# Data class for holding nodes
 class State(object):
     def __init__(self, value:string, parent=False):
         self.parent = parent
         self.value = value
+        # If a parent is passed in, this node's path become's parent's path
+        # plus this state
+        # Also, the actions are inherited from the parent, and a new one is
+        # inferred to get to this state
         if parent:
             self.path = parent.path[:]
             self.actions = parent.actions[:]
@@ -166,23 +145,9 @@ class State(object):
             self.actions = []
 
 
-class Stack():
-    def __init__(self):
-        self._stack = []
-    
-    def push(self, item):
-        self._stack.insert(0, item)
-
-    def peek(self):
-        return self._stack[0]
-    
-    def pop(self):
-        return self._stack.pop(0)
-    
-    def size(self):
-        return len(self._stack)
 
 
+# A* - Manhattan
 def AStarManhattan(source_state:str, destination_state:str) -> str:
     # setup
     priority_queue = PriorityQueue()
@@ -226,6 +191,7 @@ def AStarManhattan(source_state:str, destination_state:str) -> str:
 
 
 
+# A* - Out of Place (Hamming Distance)
 def AStarHamming(source_state:str, destination_state:str) -> str:
     # setup
     priority_queue = PriorityQueue()
@@ -273,72 +239,53 @@ def AStarHamming(source_state:str, destination_state:str) -> str:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## DFS, BFS
+# Depth First Search
 def DepthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
     # works as stack
     frontier = [[source_state]]
     explored = {source_state}
     nodes_expanded = 0
-
+    # while frontier isnt empty
     while len(frontier) > 0:
+        # retrieve next node
         curr_path = frontier.pop(0)
         curr_state = curr_path[-1]
+        # expand node
         children = GetPossibleStates(curr_state)
         nodes_expanded += 1
-        # return if goal is found
+        # return if goal is found in children
         if destination_state in children:
             curr_path.append(destination_state)
             print(f"nodes expanded: {nodes_expanded}")
             return InferActionsFromStates(curr_path)
-        # add paths to queue
+        # add paths of children to stack
         for child in children:
             if child not in explored:
                 new_path = curr_path[:]
                 new_path.append(child)
                 frontier.insert(0, new_path)
                 explored.add(child)
-    
-    # if our queue is empty, no path has been found
+    # if our stack is empty, no path has been found
     print("Could not find path!")
     return ""
 
 
 
 
+# Depth First Search
 def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
+    # works as queue
     paths = [[source_state]]
     explored = {source_state}
     nodes_expanded = 0
-
+    # while frontier isnt empty
     while len(paths) > 0:
         curr_path = paths.pop(0)
         curr_state = curr_path[-1]
+        # expand node
         children = GetPossibleStates(curr_state)
         nodes_expanded += 1
         # return if goal is found
@@ -346,14 +293,13 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
             curr_path.append(destination_state)
             print(f"nodes expanded: {nodes_expanded}")
             return InferActionsFromStates(curr_path)
-        # add paths to queue
+        # add paths of children to queue
         for child in children:
             if not (child in explored):
                 new_path = curr_path[:]
                 new_path.append(child)
                 paths.append(new_path)
                 explored.add(child)
-    
     # if our queue is empty, no path has been found
     print("Could not find path!")
     return ""
@@ -365,129 +311,71 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def IterativeDeepeningDepthFirstSearch(source_state:str, destination_state:str, max_depth:int) -> str:
-#     # init
-#     f_stack = [[source_state]]
-#     explored = {source_state}
-#     nodes_expanded = 0
-
-#     for i in range(max_depth):
-#         res, count = DepthLimitedSearch(source_state, destination_state, i)
-#         nodes_expanded += count
-#         if(res != ""):
-#             print(f"nodes expanded: {nodes_expanded}")
-#             return "path found"
-#     print(f"nodes expanded: {nodes_expanded}")
-#     return "path not found"
-
-
-# def DepthLimitedSearch(source_state:str, destination_state:str, max_depth:int) -> Tuple[str, int]:
-#     nodes_expanded = 0
-#     if source_state == destination_state: return ("path found", nodes_expanded)
-#     if max_depth <= 0: return ("", nodes_expanded)
-#     children = GetPossibleStates(source_state)
-#     nodes_expanded += 1
-#     for child in children:
-#         res, count = DepthLimitedSearch(child, destination_state, max_depth-1)
-#         nodes_expanded += count
-#         if(res != ""):
-#             return ("path found", nodes_expanded)
-#     return ("", nodes_expanded)
-
-
+## Iterative Deepening
+# Iterative Deepening Depth First Search
 def IDDFS(source_state:str, destination_state:str, max_depth:int) -> str:
     nodes_expanded = 0
-    # frontier = [[source_state]]
-    # explored = {source_state}
+    # for an increasing amount of depth. up to max
     for i in range(max_depth):
+        # return call to Helper function
         result, count = DepthFirstSearchID( source_state,
                                             destination_state,
                                             i)
         nodes_expanded += count
+        # if a solution was found, return it
         if result != "":
             print(f"nodes expanded: {nodes_expanded}")
             return result
+    # if we ran to max depth without finding a solution, return nothing
     print(f"nodes expanded: {nodes_expanded}")
     return "path not found"
-    
 
-# init stk with [[source_state]]
-# init exp with {source_state}
 def DepthFirstSearchID( source_state:str,
                         destination_state:str,
                         max_depth:int) -> Tuple[str, int]:
+    #init
     nodes_expanded = 0
     frontier = [[source_state]]
     explored = []
-
+    # while frontier isnt empty
     while (len(frontier) > 0):
         # retrieve
         curr_path = frontier.pop(0)
         curr_state = curr_path[-1]
-
         # return if goal is found
         if curr_state == destination_state:
             curr_path.append(destination_state)
             return (InferActionsFromStates(curr_path), nodes_expanded)
-        
-        # return if max_depth has been reached
+        # skip if max_depth has been reached
         if len(curr_path) > max_depth:
-            # return ("", nodes_expanded)
             continue
-
-        # add current state to explored
+        # if curent state is new, add it to explored
         if curr_state not in explored:
             explored.append(curr_state)
-            
             # expand
             children = GetPossibleStates(curr_state)
             nodes_expanded += 1
-
             # add paths to stack
             for child in children:
                 new_path = curr_path[:]
                 new_path.append(child)
                 frontier.insert(0, new_path)
-    
     # if our stack is empty, no path has been found
     return ("", nodes_expanded)
 
 
 
 
-
-
-
-
-# Iterative Deepening for A*
+# Iterative Deepening for A* - Manhattan
 def IDAStarManhattan(source_state:str, destination_state:str, max_depth:int) -> str:
+    # init, these resources are shared by all calls to A*
     priority_queue = PriorityQueue()
     visited_queue = []
     nodes_expanded = 0
     curr_nodes_expanded = 0
     # seed frontier
     priority_queue.put( (0, 0, State(source_state)) )
-
+    # for an increasing amount of depths, up to max
     for i in range(1, max_depth):
         result, curr_nodes_expanded = AStarID(  source_state,
                                                 destination_state,
@@ -496,20 +384,25 @@ def IDAStarManhattan(source_state:str, destination_state:str, max_depth:int) -> 
                                                 priority_queue,
                                                 visited_queue)
         nodes_expanded += curr_nodes_expanded
+        # if a solution was found, return it
         if result != "":
             print(f"nodes expanded: {nodes_expanded}")
             return result
+    # if we ran to max depth without finding a solution, return nothing
     print(f"nodes expanded: {nodes_expanded}")
     return "path not found"
 
+
+# Iterative Deepening for A* - Hamming
 def IDAStarHamming(source_state:str, destination_state:str, max_depth:int) -> str:
+    # init, these resources are shared by all calls to A*
     priority_queue = PriorityQueue()
     visited_queue = []
     nodes_expanded = 0
     curr_nodes_expanded = 0
     # seed frontier
     priority_queue.put( (0, 0, State(source_state)) )
-
+    # for an increasing amount of depths, up to max
     for i in range(1, max_depth):
         result, curr_nodes_expanded = AStarID(  source_state,
                                                 destination_state,
@@ -518,12 +411,16 @@ def IDAStarHamming(source_state:str, destination_state:str, max_depth:int) -> st
                                                 priority_queue,
                                                 visited_queue)
         nodes_expanded += curr_nodes_expanded
+        # if a solution was found, return it
         if result != "":
             print(f"nodes expanded: {nodes_expanded}")
             return result
+    # if we ran to max depth without finding a solution, return nothing
     print(f"nodes expanded: {nodes_expanded}")
     return "path not found"
 
+
+# Generic version of A* that supports max_depth and any heuristic
 def AStarID(    source_state:str,
                 destination_state:str,
                 heuristic,
@@ -570,50 +467,6 @@ def AStarID(    source_state:str,
 
 
 
-
-
-
-
-
-
-
-
-
-def dfs2(source_state:str, destination_state:str):
-    frontier = [[source_state]]
-    explored = [source_state]
-    # if goal then return
-    if source_state == destination_state:
-        print("src same as dst")
-        return ""
-    while len(frontier):
-        curr_path = frontier.pop(0)
-        curr_state = curr_path[-1]
-        children = GetPossibleStates(curr_state)
-        for child in children:
-            new_path = curr_path[:]
-            new_path.append(child)
-            if child == destination_state:
-                curr_path.append(destination_state)
-                return InferActionsFromStates(curr_path)
-            if new_path not in explored:
-                explored.append(new_path)
-                frontier.insert(0, new_path)
-    return "failure"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Tests
 GoalState3x3 = "123456780"
 TestSuite3x3 = [
@@ -652,6 +505,7 @@ TestSuite4x42 = [
     "EAB480FC19D56237", 
     "7DB13C52F46E80A9"]
 
+# Testing Methods
 def RunTests(test_suite:list[str], goal_state:str, algorithm):
     for test in test_suite:
         print("Test: " + test)
@@ -667,6 +521,12 @@ def RunTestsID(test_suite:list[str], goal_state:str, algorithm, max_depth:int):
         print(res); print('')
 
 
+
+
+
+
+
+
 ## Main function
 if __name__ == "__main__":
     print("\n\nstarting...\n")
@@ -677,15 +537,13 @@ if __name__ == "__main__":
     # InitialState = "16235A749C08DEBF"
     # GoalState = "123456780"
     # GoalState = "123456789ABCDEF0"
-    # mod_state = ApplyMoves(['u','u','l','d','d','r'], InitialState)
 
     # 123
     # 405
     # 786
 
     # StateDimension = 3
-    StateDimension = 4
-    search_depth = 100
+    # StateDimension = 4
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
@@ -693,16 +551,16 @@ if __name__ == "__main__":
     # print(DepthFirstSearch(InitialState, GoalState) + "\n")
 
     search_algorithm = IDDFS
+    search_depth = 100
 
-    StateDimension = 3
+    # StateDimension = 3
     # RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
-    RunTestsID(TestSuite3x3, GoalState3x3, search_algorithm, search_depth)
+    # RunTestsID(TestSuite3x3, GoalState3x3, search_algorithm, search_depth)
 
-    # StateDimension = 4
+    StateDimension = 4
     # RunTests(TestSuite4x41, GoalState4x4, search_algorithm)
     # RunTestsID(TestSuite4x41, GoalState4x4, search_algorithm, search_depth)
     # RunTests(TestSuite4x42, GoalState4x4, search_algorithm)
-    # RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
+    RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
 
     print("============================")
-
