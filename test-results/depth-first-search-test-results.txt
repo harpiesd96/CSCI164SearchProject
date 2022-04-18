@@ -1,3 +1,7 @@
+DEPTH FIRST SEARCH TEST RESULTS
+
+starting...
+
 Test: 160273485
 Goal: 123456780
 nodes expanded: 40252

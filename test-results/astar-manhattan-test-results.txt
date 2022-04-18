@@ -1,4 +1,4 @@
-A* MANHATTAN
+A* MANHATTAN TEST RESULTS
 
 starting...
 

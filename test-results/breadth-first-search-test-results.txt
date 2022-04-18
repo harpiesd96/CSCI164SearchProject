@@ -1,3 +1,5 @@
+BREADTH FIRST SEARCH TEST RESULTS
+
 starting...
 
 Test: 160273485
@@ -125,4 +127,5 @@ Goal: 123456789ABCDEF0
 nodes expanded: 1201
 uldllurrdr
 
+MEMORY ERROR
 Rest of tests run until computer runs out of memory
