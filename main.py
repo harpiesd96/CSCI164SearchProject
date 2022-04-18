@@ -2,12 +2,15 @@
 # CSCI 164 Search w/ Eight Puzzle (and 15-Puzzle) Project
 
 
+from cmd import IDENTCHARS
 from inspect import stack
 from queue import PriorityQueue
 import string
+from typing import Tuple
 
 
 # StateDimension^2 gives us the total number of tiles in the puzzle
+StateDimension = 3
 # StateDimension = 3
 # StateDimension = 4
 
@@ -69,6 +72,7 @@ def LegalMove(state, action):
         return False
     return True
 
+## Additional methods
 # returns all possible next legal states from a state
 def GetPossibleStates(state:string) -> list[str]:
     return [Result(state, i) for i in Actions() if LegalMove(state, i)]
@@ -121,6 +125,21 @@ def HammingDistance(lhs:str, rhs:str) -> int:
     if len(lhs) != len(rhs):
         print("STRINGS NOT EQUAL SIZE")
     return sum(c2 != '0' and c1 != c2 for c1, c2 in zip(lhs, rhs))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -252,14 +271,44 @@ def AStarHamming(source_state:str, destination_state:str) -> str:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def DepthFirstSearch(source_state:str, destination_state:str) -> str:
     # init
-    f_stack = [[source_state]]
+    # works as stack
+    frontier = [[source_state]]
     explored = {source_state}
     nodes_expanded = 0
 
-    while len(f_stack) > 0:
-        curr_path = f_stack.pop(0)
+    while len(frontier) > 0:
+        curr_path = frontier.pop(0)
         curr_state = curr_path[-1]
         children = GetPossibleStates(curr_state)
         nodes_expanded += 1
@@ -270,10 +319,10 @@ def DepthFirstSearch(source_state:str, destination_state:str) -> str:
             return InferActionsFromStates(curr_path)
         # add paths to queue
         for child in children:
-            if not child in explored:
+            if child not in explored:
                 new_path = curr_path[:]
                 new_path.append(child)
-                f_stack.insert(0, new_path)
+                frontier.insert(0, new_path)
                 explored.add(child)
     
     # if our queue is empty, no path has been found
@@ -315,6 +364,241 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def IterativeDeepeningDepthFirstSearch(source_state:str, destination_state:str, max_depth:int) -> str:
+    # init
+    f_stack = [[source_state]]
+    explored = {source_state}
+    nodes_expanded = 0
+
+    for i in range(max_depth):
+        res, count = DepthLimitedSearch(source_state, destination_state, i)
+        nodes_expanded += count
+        if(res != ""):
+            print(f"nodes expanded: {nodes_expanded}")
+            return "path found"
+    print(f"nodes expanded: {nodes_expanded}")
+    return "path not found"
+
+
+def DepthLimitedSearch(source_state:str, destination_state:str, max_depth:int) -> Tuple[str, int]:
+    nodes_expanded = 0
+    if source_state == destination_state: return ("path found", nodes_expanded)
+    if max_depth <= 0: return ("", nodes_expanded)
+    children = GetPossibleStates(source_state)
+    nodes_expanded += 1
+    for child in children:
+        res, count = DepthLimitedSearch(child, destination_state, max_depth-1)
+        nodes_expanded += count
+        if(res != ""):
+            return ("path found", nodes_expanded)
+    return ("", nodes_expanded)
+
+def IterativeDeepening(search_algorithm, source_state:str, destination_state:str, max_depth:int) -> str:
+    nodes_expanded = 0
+    frontier = [[source_state]]
+    explored = {source_state}
+    for i in range(1, max_depth):
+        result, count = search_algorithm(destination_state, i, frontier, explored)
+        nodes_expanded += count
+        if result != "":
+            print(f"nodes expanded: {nodes_expanded}")
+            return result
+    print(f"nodes expanded: {nodes_expanded}")
+    return "path not found"
+    
+
+# init stk with [[source_state]]
+# init exp with {source_state}
+def DepthFirstSearchID(destination_state:str, max_depth:int, ftr:list[list[str]], exp:set, cnt:int=0) -> Tuple[str, int]:
+    while True:
+        curr_path = ftr.pop(0)
+        curr_state = curr_path[-1]
+        children = GetPossibleStates(curr_state)
+        cnt += 1
+        # return if goal is found
+        if destination_state in children:
+            curr_path.append(destination_state)
+            return (InferActionsFromStates(curr_path), cnt)
+        # returnif max_depth has been reached
+        if len(curr_path) > max_depth:
+            return ("", cnt)
+        # add paths to stack
+        for child in children:
+            if child not in exp:
+                new_path = curr_path[:]
+                new_path.append(child)
+                ftr.insert(0, new_path)
+                exp.add(child)
+        # do-while pattern
+        if(len(ftr) > 0): break
+    # if our stack is empty, no path has been found
+    return ("", cnt)
+
+
+
+
+
+
+
+
+# Iterative Deepening for A*
+def IDAStarManhattan(source_state:str, destination_state:str, max_depth:int) -> str:
+    priority_queue = PriorityQueue()
+    visited_queue = []
+    nodes_expanded = 0
+    curr_nodes_expanded = 0
+    # seed frontier
+    priority_queue.put( (0, 0, State(source_state)) )
+
+    for i in range(1, max_depth):
+        result, curr_nodes_expanded = AStarID(  source_state,
+                                                destination_state,
+                                                ManhattanDistance,
+                                                i,
+                                                priority_queue,
+                                                visited_queue)
+        nodes_expanded += curr_nodes_expanded
+        if result != "":
+            print(f"nodes expanded: {nodes_expanded}")
+            return result
+    print(f"nodes expanded: {nodes_expanded}")
+    return "path not found"
+
+def IDAStarHamming(source_state:str, destination_state:str, max_depth:int) -> str:
+    priority_queue = PriorityQueue()
+    visited_queue = []
+    nodes_expanded = 0
+    curr_nodes_expanded = 0
+    # seed frontier
+    priority_queue.put( (0, 0, State(source_state)) )
+
+    for i in range(1, max_depth):
+        result, curr_nodes_expanded = AStarID(  source_state,
+                                                destination_state,
+                                                OutOfPlace,
+                                                i,
+                                                priority_queue,
+                                                visited_queue)
+        nodes_expanded += curr_nodes_expanded
+        if result != "":
+            print(f"nodes expanded: {nodes_expanded}")
+            return result
+    print(f"nodes expanded: {nodes_expanded}")
+    return "path not found"
+
+def AStarID(    source_state:str,
+                destination_state:str,
+                heuristic,
+                max_depth:int,
+                ftr:PriorityQueue,
+                exp:list[str],
+                cnt:int=0   ) -> str:
+    path = []
+    actions = []
+    count = 0
+    # run until the either we have a path or the frontier is empty
+    while(path == [] and not ftr.empty()):
+        # get node of least cost and add it to visited list
+        current_child = ftr.get()[2]
+        exp.append(current_child.value)
+        # return if goal is found
+        if current_child.value == destination_state:
+            print("Start state is same as goal state")
+            return ""
+        # generate child states from current state
+        cnt += 1
+        children = [State(s, current_child) for s in GetPossibleStates(current_child.value)]
+        for child in children:
+            if child.value not in exp:
+                # return if goal is found
+                if child.value == destination_state:
+                    path = child.path[:]
+                    actions = child.actions[:]
+                    break
+                # get new costs for this child, and put it in the frontier
+                count += 1
+                hueristic_cost = heuristic(current_child.value, destination_state)
+                ftr.put( (hueristic_cost, count, child) )
+    # if entire search space has been exhausted without a solution, print error message
+    if path == []:
+        print("Could not find path!")
+    # return solution
+    return (''.join(actions), cnt)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def dfs2(source_state:str, destination_state:str):
+    frontier = [[source_state]]
+    explored = [source_state]
+    # if goal then return
+    if source_state == destination_state:
+        print("src same as dst")
+        return ""
+    while len(frontier):
+        curr_path = frontier.pop(0)
+        curr_state = curr_path[-1]
+        children = GetPossibleStates(curr_state)
+        for child in children:
+            new_path = curr_path[:]
+            new_path.append(child)
+            if child == destination_state:
+                curr_path.append(destination_state)
+                return InferActionsFromStates(curr_path)
+            if new_path not in explored:
+                explored.append(new_path)
+                frontier.insert(0, new_path)
+    return "failure"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Tests
 GoalState3x3 = "123456780"
 TestSuite3x3 = [
@@ -340,12 +624,13 @@ TestSuite3x3 = [
     "130458726"]
 
 GoalState4x4 = "123456789ABCDEF0"
-TestSuite4x4 = [
+TestSuite4x41 = [
     "16235A749C08DEBF", 
     "0634217859ABDEFC", 
     "012456379BC8DAEF", 
     "51246A38097BDEFC", 
-    "12345678D9CFEBA0", 
+    "12345678D9CFEBA0"]
+TestSuite4x42 = [
     "71A92CE03DB4658F", 
     "02348697DF5A1EBC", 
     "39A1D0EC7BF86452", 
@@ -359,33 +644,56 @@ def RunTests(test_suite:list[str], goal_state:str, algorithm):
         res = algorithm(test, goal_state)
         print(res); print('')
 
+def RunTestsID(test_suite:list[str], goal_state:str, algorithm, max_depth:int):
+    for test in test_suite:
+        print("Test: " + test)
+        print("Goal: " + goal_state)
+        res = algorithm(test, goal_state, max_depth)
+        print(res); print('')
 
+
+# def foo():
+#     my_set = {8,9}
+#     bar(my_set)
+#     return my_set
+
+# def bar(val):
+#     val.add(1)
 
 
 ## Main function
 if __name__ == "__main__":
     print("\n\nstarting...\n")
 
-    # InitialState = "328617540"
+    # InitialState = "123405786"
+    # InitialState = "130458726"
+    # InitialState = "821574360"
     # GoalState = "123456780"
+    # mod_state = ApplyMoves(['u','u','l','d','d','r'], InitialState)
 
-    # # 123
-    # # 405
-    # # 786
+    # 123
+    # 405
+    # 786
 
     # StateDimension = 3
+    search_depth = 6
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
-    # print(BreadthFirstSearch2(InitialState, GoalState) + "\n")
+    # print(IDAStarManhattan(InitialState, GoalState, search_depth) + "\n")
+    # print(dfs2(mod_state, GoalState) + "\n")
 
-    search_algorithm = BreadthFirstSearch
+    search_algorithm = IDAStarHamming
 
     StateDimension = 3
-    RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
+    # RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
+    RunTestsID(TestSuite3x3, GoalState3x3, search_algorithm, search_depth)
 
-    # StateDimension = 4
-    # RunTests(TestSuite4x4, GoalState4x4, search_algorithm)
+    StateDimension = 4
+    # RunTests(TestSuite4x41, GoalState4x4, search_algorithm)
+    RunTestsID(TestSuite4x41, GoalState4x4, search_algorithm, search_depth)
+    # RunTests(TestSuite4x42, GoalState4x4, search_algorithm)
+    RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
 
     print("============================")
 
