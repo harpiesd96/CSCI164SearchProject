@@ -2,8 +2,6 @@
 # CSCI 164 Search w/ Eight Puzzle (and 15-Puzzle) Project
 
 
-from cmd import IDENTCHARS
-from inspect import stack
 from queue import PriorityQueue
 import string
 from typing import Tuple
@@ -419,13 +417,12 @@ def BreadthFirstSearch(source_state:str, destination_state:str) -> str:
 
 def IDDFS(source_state:str, destination_state:str, max_depth:int) -> str:
     nodes_expanded = 0
-    frontier = [[source_state]]
-    explored = {source_state}
-    for i in range(1, max_depth):
-        result, count = DepthFirstSearchID( destination_state,
-                                            i,
-                                            frontier,
-                                            explored)
+    # frontier = [[source_state]]
+    # explored = {source_state}
+    for i in range(max_depth):
+        result, count = DepthFirstSearchID( source_state,
+                                            destination_state,
+                                            i)
         nodes_expanded += count
         if result != "":
             print(f"nodes expanded: {nodes_expanded}")
@@ -436,32 +433,44 @@ def IDDFS(source_state:str, destination_state:str, max_depth:int) -> str:
 
 # init stk with [[source_state]]
 # init exp with {source_state}
-def DepthFirstSearchID( destination_state:str,
-                        max_depth:int,
-                        ftr:list[list[str]],
-                        exp:set,
-                        cnt:int=0   ) -> Tuple[str, int]:
-    while (len(ftr) > 0):
-        curr_path = ftr.pop(0)
+def DepthFirstSearchID( source_state:str,
+                        destination_state:str,
+                        max_depth:int) -> Tuple[str, int]:
+    nodes_expanded = 0
+    frontier = [[source_state]]
+    explored = []
+
+    while (len(frontier) > 0):
+        # retrieve
+        curr_path = frontier.pop(0)
         curr_state = curr_path[-1]
-        children = GetPossibleStates(curr_state)
-        cnt += 1
+
         # return if goal is found
-        if destination_state in children:
+        if curr_state == destination_state:
             curr_path.append(destination_state)
-            return (InferActionsFromStates(curr_path), cnt)
-        # returnif max_depth has been reached
+            return (InferActionsFromStates(curr_path), nodes_expanded)
+        
+        # return if max_depth has been reached
         if len(curr_path) > max_depth:
-            return ("", cnt)
-        # add paths to stack
-        for child in children:
-            if child not in exp:
+            # return ("", nodes_expanded)
+            continue
+
+        # add current state to explored
+        if curr_state not in explored:
+            explored.append(curr_state)
+            
+            # expand
+            children = GetPossibleStates(curr_state)
+            nodes_expanded += 1
+
+            # add paths to stack
+            for child in children:
                 new_path = curr_path[:]
                 new_path.append(child)
-                ftr.insert(0, new_path)
-                exp.add(child)
+                frontier.insert(0, new_path)
+    
     # if our stack is empty, no path has been found
-    return ("", cnt)
+    return ("", nodes_expanded)
 
 
 
@@ -658,23 +667,16 @@ def RunTestsID(test_suite:list[str], goal_state:str, algorithm, max_depth:int):
         print(res); print('')
 
 
-# def foo():
-#     my_set = {8,9}
-#     bar(my_set)
-#     return my_set
-
-# def bar(val):
-#     val.add(1)
-
-
 ## Main function
 if __name__ == "__main__":
     print("\n\nstarting...\n")
 
     # InitialState = "123405786"
-    # InitialState = "130458726"
+    # InitialState = "158274036"
     # InitialState = "821574360"
+    # InitialState = "16235A749C08DEBF"
     # GoalState = "123456780"
+    # GoalState = "123456789ABCDEF0"
     # mod_state = ApplyMoves(['u','u','l','d','d','r'], InitialState)
 
     # 123
@@ -682,12 +684,13 @@ if __name__ == "__main__":
     # 786
 
     # StateDimension = 3
-    search_depth = 16
+    StateDimension = 4
+    search_depth = 100
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
-    # print(IDAStarManhattan(InitialState, GoalState, search_depth) + "\n")
-    # print(dfs2(mod_state, GoalState) + "\n")
+    # print(IDDFS(InitialState, GoalState, search_depth) + "\n")
+    # print(DepthFirstSearch(InitialState, GoalState) + "\n")
 
     search_algorithm = IDDFS
 
