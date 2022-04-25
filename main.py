@@ -6,6 +6,7 @@
 from queue import PriorityQueue
 import string
 from typing import Tuple
+import time
 
 
 
@@ -116,6 +117,33 @@ def HammingDistance(lhs:str, rhs:str) -> int:
     if len(lhs) != len(rhs):
         print("STRINGS NOT EQUAL SIZE")
     return sum(c2 != '0' and c1 != c2 for c1, c2 in zip(lhs, rhs))
+
+
+
+
+
+
+
+
+## Timer
+class Timer():
+    def __init__(self) -> None:
+        self.start_time = 0
+        self.end_time = 0
+    
+    def start(self):
+        self.start_time = time.time()
+        self.stop_time = 0
+
+    def stop(self):
+        self.stop_time = time.time()
+
+    def getTime(self):
+        return self.stop_time - self.start_time
+
+    def reset(self):
+        self.start_time = 0
+        self.end_time = 0
 
 
 
@@ -490,6 +518,10 @@ TestSuite3x3 = [
     "430621875", 
     "158274036", 
     "130458726"]
+Discussion3x3 = [
+    "123456078",
+    "274651380"
+]
 
 GoalState4x4 = "123456789ABCDEF0"
 TestSuite4x41 = [
@@ -504,6 +536,10 @@ TestSuite4x42 = [
     "39A1D0EC7BF86452", 
     "EAB480FC19D56237", 
     "7DB13C52F46E80A9"]
+Discussion4x4 = [
+    "12345E98F7DA60CB",
+    "40A19738E65BDFC2"
+]
 
 # Testing Methods
 def RunTests(test_suite:list[str], goal_state:str, algorithm):
@@ -512,6 +548,17 @@ def RunTests(test_suite:list[str], goal_state:str, algorithm):
         print("Goal: " + goal_state)
         res = algorithm(test, goal_state)
         print(res); print('')
+
+def RunTests(test_suite:list[str], goal_state:str, algorithm, timer):
+    for test in test_suite:
+        print("Test: " + test)
+        print("Goal: " + goal_state)
+        timer.reset()
+        timer.start()
+        res = algorithm(test, goal_state)
+        timer.stop()
+        print(res)
+        print(f"Time taken: {timer.getTime()}"); print('')
 
 def RunTestsID(test_suite:list[str], goal_state:str, algorithm, max_depth:int):
     for test in test_suite:
@@ -529,12 +576,17 @@ def RunTestsID(test_suite:list[str], goal_state:str, algorithm, max_depth:int):
 
 ## Main function
 if __name__ == "__main__":
-    print("\n\nstarting...\n")
+    # print("\n\nstarting...\n")
+    print("\n\nA* Manhattan\n")
+
+    mytimer = Timer()
 
     # InitialState = "123405786"
-    # InitialState = "158274036"
+    # InitialState = "821764350"
+    # InitialState = "436501278"
     # InitialState = "821574360"
     # InitialState = "16235A749C08DEBF"
+    # InitialState = "A931BC486E057D2F"
     # GoalState = "123456780"
     # GoalState = "123456789ABCDEF0"
 
@@ -542,25 +594,60 @@ if __name__ == "__main__":
     # 405
     # 786
 
+
+
+
+
+
     # StateDimension = 3
     # StateDimension = 4
 
     # print('Start: ' + InitialState)
     # print('Goal: ' + GoalState)
     # print(IDDFS(InitialState, GoalState, search_depth) + "\n")
-    # print(DepthFirstSearch(InitialState, GoalState) + "\n")
+    # mytimer.start()
+    # print(AStarManhattan(InitialState, GoalState) + "\n")
+    # mytimer.stop()
+    # print(f"Time taken: {mytimer.getTime()}")
 
-    search_algorithm = IDDFS
-    search_depth = 100
+    search_algorithm = AStarManhattan
+    # search_depth = 100
 
-    # StateDimension = 3
+    StateDimension = 3
     # RunTests(TestSuite3x3, GoalState3x3, search_algorithm)
+    RunTests(Discussion3x3, GoalState3x3, search_algorithm, mytimer)
     # RunTestsID(TestSuite3x3, GoalState3x3, search_algorithm, search_depth)
 
     StateDimension = 4
     # RunTests(TestSuite4x41, GoalState4x4, search_algorithm)
+    RunTests(Discussion4x4, GoalState4x4, search_algorithm, mytimer)
     # RunTestsID(TestSuite4x41, GoalState4x4, search_algorithm, search_depth)
     # RunTests(TestSuite4x42, GoalState4x4, search_algorithm)
-    RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
+    # RunTestsID(TestSuite4x42, GoalState4x4, search_algorithm, search_depth)
 
     print("============================")
+
+
+# A* Manhattan
+
+# Start: 123405786
+# Goal: 123456780
+# rd
+# Time taken: 0.0010020732879638672
+
+# Start: 16235A749C08DEBF
+# Goal: 123456789ABCDEF0
+# luurrddldr
+# Time taken: 0.0020017623901367188
+
+# Start: 436501278
+# Goal: 123456780
+# nodes expanded: 894
+# ldrruuldlurddruldlurrdluulddrruldlurrdlluurddruulldrurdd
+# Time taken: 0.04800152778625488
+
+# Start: A931BC486E057D2F
+# Goal: 123456789ABCDEF0
+# nodes expanded: 18692
+# dluuuldddrruluulddruurdllurrrddlurulldrulldrrulddrdruuldlurrddllluuurdldrdrulldrurdlurdrulldrurdlldrurddrdluurdldruulddruldlurrdluldluurdldrrruldlurrdllurdruuldlurrdd
+# Time taken: 7.336951971054077
